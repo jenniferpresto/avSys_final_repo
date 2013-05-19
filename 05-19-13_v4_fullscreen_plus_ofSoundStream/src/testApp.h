@@ -91,6 +91,11 @@ class testApp : public ofBaseApp{
         Sample drumsPercBass;
         Sample drumsPercBassGuitar;
     
+        bool drumsPlaying;
+        bool percussionPlaying;
+        bool bassPlaying;
+        bool guitarPlaying;
+
         //variables for interface itself
         int appState;
         ofxCenteredTrueTypeFont helvetica;
@@ -106,5 +111,7 @@ class testApp : public ofBaseApp{
     
         void countdown();
         void drawRecordingMeter();
+    
+    
     
 };
