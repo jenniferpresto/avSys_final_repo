@@ -7,6 +7,13 @@
  
  Created for AVSys, a class in the MFA program in Design and Technology at Parsons
  
+ PS3Eye cam-specific settings from basic example that comes with addon, available here:
+ https://github.com/paulobarcelos/ofxMacamPs3Eye
+ 
+ ofSoundStream code adapted from code by
+ by Pierre Proske, available here: http://forum.openframeworks.cc/index.php/topic,3502.0.html
+
+ 
  */
 
 #include "testApp.h"
@@ -14,15 +21,15 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-    
+    ofSetFullscreen(true);
     ofSetVerticalSync(true);
 	ofSetFrameRate(30);
     ofEnableAlphaBlending();
     
     ofSetColor(255, 255, 255);
 	
-	camWidth = 640;     // if change this, change vector size in testApp.h
-	camHeight = 480;    // if change this, change vector size in testApp.h
+	camWidth = 640;     // if change this, change both vector sizes in testApp.h
+	camHeight = 480;    // if change this, change both vector sizes in testApp.h
 	
 	ps3eye.listDevices();
 	
@@ -79,6 +86,13 @@ void testApp::setup(){
     
     // variables for interface
     appState = 0;
+    
+    drumsButton.loadImage("drumsButton.png");
+    percussionButton.loadImage("percussionButton.png");
+    bassButton.loadImage("bassButton.png");
+    guitarButton.loadImage("guitarButton.png");
+    audienceButton.loadImage("audienceButton.png");
+    
     
 }
 
@@ -167,6 +181,32 @@ void testApp::draw(){
     }
     
 	ps3eye.draw(10,10, 320, 240);
+    if(appState == 0){
+        ofSetColor(255, 255, 255);
+        drumsButton.draw(10, 384);
+        ofSetColor(75, 75, 75);
+        percussionButton.draw(10, 465);
+        bassButton.draw(10, 546);
+        guitarButton.draw(10, 627);
+        audienceButton.draw(10, 708);
+        ofSetColor(255, 255, 255);
+        
+    }
+    if(appState == 1){
+        
+    }
+    if(appState == 2){
+        
+    }
+    if(appState == 3){
+        
+    }
+    if(appState == 4){
+        
+    }
+    if(appState == 5){
+        
+    }
 	
 	ofDrawBitmapString("Ps3Eye FPS: "+ ofToString(ps3eye.getRealFrameRate()), 20,15);
 }
@@ -214,7 +254,13 @@ void testApp::makeLoop (vector<ofImage> & loopingClip){
 
 //--------------------------------------------------------------
 void testApp::keyPressed  (int key){
-    
+    if(key==' '){
+        images.clear();
+        images2.clear();
+        images3.clear();
+        images4.clear();
+        images5.clear();
+    }
 	
     
 }

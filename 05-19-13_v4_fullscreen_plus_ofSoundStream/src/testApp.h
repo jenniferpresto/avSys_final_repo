@@ -1,4 +1,4 @@
-/* 
+/*
  One-Man Air-Band
  
  Jennifer G. Presto
@@ -6,6 +6,13 @@
  May 19, 2013
  
  Created for AVSys, a class in the MFA program in Design and Technology at Parsons
+ 
+ PS3Eye cam-specific settings from basic example that comes with addon, available here:
+ https://github.com/paulobarcelos/ofxMacamPs3Eye
+ 
+ ofSoundStream code adapted from code by
+ by Pierre Proske, available here: http://forum.openframeworks.cc/index.php/topic,3502.0.html
+ 
  
  */
 
@@ -78,5 +85,10 @@ class testApp : public ofBaseApp{
     
     //variables for interface itself
     int appState;
+    ofImage drumsButton;
+    ofImage percussionButton;
+    ofImage bassButton;
+    ofImage guitarButton;
+    ofImage audienceButton;
     
 };
