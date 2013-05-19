@@ -7,13 +7,19 @@
  
  Created for AVSys, a class in the MFA program in Design and Technology at Parsons
  
- PS3Eye cam-specific settings from basic example that comes with addon, available here:
+ Play in an awesome air band, even if you're by yourself!
+ 
+ PS3Eye cam-specific settings from basic example
+ that comes with addon, available here:
  https://github.com/paulobarcelos/ofxMacamPs3Eye
  
  ofSoundStream code adapted from code by
- by Pierre Proske, available here: http://forum.openframeworks.cc/index.php/topic,3502.0.html
+ by Pierre Proske, available here:
+ http://forum.openframeworks.cc/index.php/topic,3502.0.html
  
- 
+ ofxCenteredTrueTypeFont subclass
+ created by armadillu, available here:
+ https://github.com/armadillu/ofxCenteredTrueTypeFont
  */
 
 #pragma once
@@ -21,6 +27,8 @@
 #include "ofMain.h"
 #include "ofxMacamPs3Eye.h"
 #include "Sample.h"
+#include "ofxCenteredTrueTypeFont.h"
+
 
 
 class testApp : public ofBaseApp{
@@ -83,12 +91,20 @@ class testApp : public ofBaseApp{
         Sample drumsPercBass;
         Sample drumsPercBassGuitar;
     
-    //variables for interface itself
-    int appState;
-    ofImage drumsButton;
-    ofImage percussionButton;
-    ofImage bassButton;
-    ofImage guitarButton;
-    ofImage audienceButton;
+        //variables for interface itself
+        int appState;
+        ofxCenteredTrueTypeFont helvetica;
+        bool recording;
+        int timeStartRecording;
+    
+        ofImage titlePage;
+        ofImage drumsButton;
+        ofImage percussionButton;
+        ofImage bassButton;
+        ofImage guitarButton;
+        ofImage audienceButton;
+    
+        void countdown();
+        void drawRecordingMeter();
     
 };

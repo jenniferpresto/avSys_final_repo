@@ -7,13 +7,19 @@
  
  Created for AVSys, a class in the MFA program in Design and Technology at Parsons
  
- PS3Eye cam-specific settings from basic example that comes with addon, available here:
+ Play in an awesome air band, even if you're by yourself!
+ 
+ PS3Eye cam-specific settings from basic example
+ that comes with addon, available here:
  https://github.com/paulobarcelos/ofxMacamPs3Eye
  
  ofSoundStream code adapted from code by
- by Pierre Proske, available here: http://forum.openframeworks.cc/index.php/topic,3502.0.html
-
+ by Pierre Proske, available here:
+ http://forum.openframeworks.cc/index.php/topic,3502.0.html
  
+ ofxCenteredTrueTypeFont subclass
+ created by armadillu, available here:
+ https://github.com/armadillu/ofxCenteredTrueTypeFont
  */
 
 #include "testApp.h"
@@ -21,7 +27,7 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-    ofSetFullscreen(true);
+//    ofSetFullscreen(true);
     ofSetVerticalSync(true);
 	ofSetFrameRate(30);
     ofEnableAlphaBlending();
@@ -86,7 +92,11 @@ void testApp::setup(){
     
     // variables for interface
     appState = 0;
+    helvetica.loadFont("helvetica.otf", 24);
+    recording = false;
+    timeStartRecording = 0;
     
+    titlePage.loadImage("titlePage.png");
     drumsButton.loadImage("drumsButton.png");
     percussionButton.loadImage("percussionButton.png");
     bassButton.loadImage("bassButton.png");
@@ -147,8 +157,8 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    background.draw(0,0, 1024, 768);
-    
+    background.draw(0, 0, 1024, 768);
+    cout << appState << "  recording? " << recording << "   " << mouseX << " " << mouseY << endl;
     
     if (images.size() > 0){
         int whichImage = ofGetFrameNum() % images.size();
@@ -180,9 +190,17 @@ void testApp::draw(){
         displayImage.draw(0, 0, 1024, 768);
     }
     
-	ps3eye.draw(10,10, 320, 240);
+    if (appState != 5){
+        ps3eye.draw(10,10, 320, 240);
+    }
+    // beginning of app
     if(appState == 0){
-        ofSetColor(255, 255, 255);
+        titlePage.draw(0, 0);
+    }
+    
+    // background set; nothing recorded
+    // record drums
+    if(appState == 1){
         drumsButton.draw(10, 384);
         ofSetColor(75, 75, 75);
         percussionButton.draw(10, 465);
@@ -190,25 +208,36 @@ void testApp::draw(){
         guitarButton.draw(10, 627);
         audienceButton.draw(10, 708);
         ofSetColor(255, 255, 255);
-        
     }
-    if(appState == 1){
-        
-    }
+    
+    // drums already recorded and looping
+    // record percussion
     if(appState == 2){
         
     }
+    
+    // drums and percussion already recorded and looping
+    // record bass
     if(appState == 3){
         
     }
+    
+    // drums, percussion, and bass already recorded and looping
+    // record guitar
     if(appState == 4){
         
     }
+    
+    // drums, percussion, bass, and guitar already recorded and looping
+    // record audience
     if(appState == 5){
         
     }
 	
 	ofDrawBitmapString("Ps3Eye FPS: "+ ofToString(ps3eye.getRealFrameRate()), 20,15);
+    if(recording && ofGetElapsedTimeMillis()-timeStartRecording < 5000){
+        countdown();
+    }
 }
 
 //--------------------------------------------------------------
@@ -255,6 +284,7 @@ void testApp::makeLoop (vector<ofImage> & loopingClip){
 //--------------------------------------------------------------
 void testApp::keyPressed  (int key){
     if(key==' '){
+        appState = 1;
         images.clear();
         images2.clear();
         images3.clear();
@@ -282,6 +312,10 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
+    if(appState == 1 && x > 10 && x < 330 && y > 384 && y < 434){
+        recording = true;
+        timeStartRecording = ofGetElapsedTimeMillis();
+    }
 	
 }
 
@@ -343,7 +377,7 @@ void testApp::audioRequested 	(float * output, int bufferSize, int nChannels){
             }
         }
     }
-
+    
     // drums, percussion, and bass
     if(appState == 4){
         for (int i = 0; i < bufferSize; i++){
@@ -360,7 +394,7 @@ void testApp::audioRequested 	(float * output, int bufferSize, int nChannels){
             }
         }
     }
-
+    
     // drums, percussion, bass, and guitar
     if(appState == 5){
         for (int i = 0; i < bufferSize; i++){
@@ -379,3 +413,13 @@ void testApp::audioRequested 	(float * output, int bufferSize, int nChannels){
     }
 }
 
+//--------------------------------------------------------------
+void testApp::countdown (){
+    helvetica.drawStringCentered("Beginning recording in", ofGetWidth() * 0.5, 30);
+    helvetica.drawStringCentered(ofToString((int)(timeStartRecording+5000-ofGetElapsedTimeMillis())/1000 + 1), ofGetWidth() * 0.5, 60);
+}
+
+//--------------------------------------------------------------
+void testApp::drawRecordingMeter (){
+    
+}
