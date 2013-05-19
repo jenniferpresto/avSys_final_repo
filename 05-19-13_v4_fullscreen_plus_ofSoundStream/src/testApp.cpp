@@ -1,3 +1,14 @@
+/*
+ One-Man Air-Band
+ 
+ Jennifer G. Presto
+ AVSys Final Project
+ May 19, 2013
+ 
+ Created for AVSys, a class in the MFA program in Design and Technology at Parsons
+ 
+ */
+
 #include "testApp.h"
 
 
@@ -7,7 +18,7 @@ void testApp::setup(){
     ofSetVerticalSync(true);
 	ofSetFrameRate(30);
     ofEnableAlphaBlending();
-
+    
     ofSetColor(255, 255, 255);
 	
 	camWidth = 640;     // if change this, change vector size in testApp.h
@@ -24,7 +35,7 @@ void testApp::setup(){
 	ps3eye.setGamma(0.5);
 	ps3eye.setBrightness(0.6);
 	ps3eye.setContrast(1.0);
-//	ps3eye.setHue(0.0);
+    //	ps3eye.setHue(0.0);
 	
 	ps3eye.setFlicker(1);
     
@@ -32,12 +43,12 @@ void testApp::setup(){
     background.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
     grayImageForAlpha.allocate(camWidth, camHeight, OF_IMAGE_GRAYSCALE);
     displayCutOut.allocate(camWidth, camHeight, OF_IMAGE_COLOR_ALPHA);
-
+    
     // images to be displayed in loops
     displayImage.allocate(camWidth, camHeight, OF_IMAGE_COLOR);
-
+    
     // threshold for background subtractions
-    threshold = 300;
+    threshold = 400;
     
     // sound setup:
     // 2 output channels,
@@ -52,15 +63,23 @@ void testApp::setup(){
 	lAudio = new float[256];
 	rAudio = new float[256];
     
-	bass.load("bass.wav");
-	bass.setLooping(true);
+	drums.load("drums.wav");
+	drums.setLooping(true);
     
-    guitar.load("guitar.wav");
-    guitar.setLooping(true);
+    drumsPerc.load("drumsPerc.wav");
+    drumsPerc.setLooping(true);
+    
+    drumsPercBass.load("drumsPercBass.wav");
+    drumsPercBass.setLooping(true);
+    
+    drumsPercBassGuitar.load("drumsPercBassGuitar.wav");
+    drumsPercBassGuitar.setLooping(true);
     
 	ofSoundStreamSetup(2, 0, this, sampleRate, 256, 4);
-
-
+    
+    // variables for interface
+    appState = 0;
+    
 }
 
 
@@ -72,7 +91,7 @@ void testApp::update(){
 	
 	// Blink the led everytime there is a new frame
 	if(ps3eye.isFrameNew()){
-		ps3eye.setLed(true); 
+		ps3eye.setLed(true);
 	}
 	else ps3eye.setLed(false);
     
@@ -109,7 +128,7 @@ void testApp::update(){
     if(ofGetKeyPressed('e')){
         makeLoop(images5);
     }
-
+    
 }
 
 //--------------------------------------------------------------
@@ -146,7 +165,7 @@ void testApp::draw(){
         displayImage.setFromPixels(images5[whichImage].getPixelsRef());
         displayImage.draw(0, 0, 1024, 768);
     }
-
+    
 	ps3eye.draw(10,10, 320, 240);
 	
 	ofDrawBitmapString("Ps3Eye FPS: "+ ofToString(ps3eye.getRealFrameRate()), 20,15);
@@ -194,14 +213,14 @@ void testApp::makeLoop (vector<ofImage> & loopingClip){
 
 
 //--------------------------------------------------------------
-void testApp::keyPressed  (int key){ 	
-
+void testApp::keyPressed  (int key){
+    
 	
-		
+    
 }
 
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){ 
+void testApp::keyReleased(int key){
 	
 }
 
@@ -222,22 +241,22 @@ void testApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::windowResized(int w, int h){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::gotMessage(ofMessage msg){
-
+    
 }
 
 //--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
-
+void testApp::dragEvent(ofDragInfo dragInfo){
+    
 }
 //--------------------------------------------------------------
 void testApp::audioRequested 	(float * output, int bufferSize, int nChannels){
@@ -245,33 +264,71 @@ void testApp::audioRequested 	(float * output, int bufferSize, int nChannels){
 	float leftScale = 1 - pan;
 	float rightScale = pan;
     
-    // bass
-    for (int i = 0; i < bufferSize; i++){
-        // mono
-        if(bass.getChannels() == 1) {
-            float smp = bass.play(speed);
-            lAudio[i] = output[i*nChannels    ] = smp * volume * leftScale;
-            rAudio[i] = output[i*nChannels + 1] = smp * volume * rightScale;
-        }
-        // stereo
-        else if (bass.getChannels() == 2) {
-            lAudio[i] = output[i*nChannels    ] = bass.play(speed) * volume * leftScale;
-            rAudio[i] = output[i*nChannels + 1] = bass.play(speed) * volume * rightScale;
+    // drums only
+    if(appState == 2){
+        for (int i = 0; i < bufferSize; i++){
+            // mono
+            if(drums.getChannels() == 1) {
+                float smp = drums.play(speed);
+                lAudio[i] = output[i*nChannels    ] = smp * volume * leftScale;
+                rAudio[i] = output[i*nChannels + 1] = smp * volume * rightScale;
+            }
+            // stereo
+            else if (drums.getChannels() == 2) {
+                lAudio[i] = output[i*nChannels    ] = drums.play(speed) * volume * leftScale;
+                rAudio[i] = output[i*nChannels + 1] = drums.play(speed) * volume * rightScale;
+            }
         }
     }
     
-    // guitar
-    for (int i = 0; i < bufferSize; i++){
-        // mono
-        if(guitar.getChannels() == 1) {
-            float smp = guitar.play(speed);
-            lAudio[i] = output[i*nChannels    ] = smp * volume * leftScale;
-            rAudio[i] = output[i*nChannels + 1] = smp * volume * rightScale;
+    // drums plus percussion
+    if(appState == 3){
+        for (int i = 0; i < bufferSize; i++){
+            // mono
+            if(drumsPerc.getChannels() == 1) {
+                float smp = drumsPerc.play(speed);
+                lAudio[i] = output[i*nChannels    ] = smp * volume * leftScale;
+                rAudio[i] = output[i*nChannels + 1] = smp * volume * rightScale;
+            }
+            // stereo
+            else if (drumsPerc.getChannels() == 2) {
+                lAudio[i] = output[i*nChannels    ] = drumsPerc.play(speed) * volume * leftScale;
+                rAudio[i] = output[i*nChannels + 1] = drumsPerc.play(speed) * volume * rightScale;
+            }
         }
-        // stereo
-        else if (guitar.getChannels() == 2) {
-            lAudio[i] = output[i*nChannels    ] = guitar.play(speed) * volume * leftScale;
-            rAudio[i] = output[i*nChannels + 1] = guitar.play(speed) * volume * rightScale;
+    }
+
+    // drums, percussion, and bass
+    if(appState == 4){
+        for (int i = 0; i < bufferSize; i++){
+            // mono
+            if(drumsPercBass.getChannels() == 1) {
+                float smp = drumsPerc.play(speed);
+                lAudio[i] = output[i*nChannels    ] = smp * volume * leftScale;
+                rAudio[i] = output[i*nChannels + 1] = smp * volume * rightScale;
+            }
+            // stereo
+            else if (drumsPercBass.getChannels() == 2) {
+                lAudio[i] = output[i*nChannels    ] = drumsPercBass.play(speed) * volume * leftScale;
+                rAudio[i] = output[i*nChannels + 1] = drumsPercBass.play(speed) * volume * rightScale;
+            }
+        }
+    }
+
+    // drums, percussion, bass, and guitar
+    if(appState == 5){
+        for (int i = 0; i < bufferSize; i++){
+            // mono
+            if(drumsPercBassGuitar.getChannels() == 1) {
+                float smp = drumsPercBassGuitar.play(speed);
+                lAudio[i] = output[i*nChannels    ] = smp * volume * leftScale;
+                rAudio[i] = output[i*nChannels + 1] = smp * volume * rightScale;
+            }
+            // stereo
+            else if (drumsPercBassGuitar.getChannels() == 2) {
+                lAudio[i] = output[i*nChannels    ] = drumsPercBassGuitar.play(speed) * volume * leftScale;
+                rAudio[i] = output[i*nChannels + 1] = drumsPercBassGuitar.play(speed) * volume * rightScale;
+            }
         }
     }
 }

@@ -1,3 +1,14 @@
+/* 
+ One-Man Air-Band
+ 
+ Jennifer G. Presto
+ AVSys Final Project
+ May 19, 2013
+ 
+ Created for AVSys, a class in the MFA program in Design and Technology at Parsons
+ 
+ */
+
 #pragma once
 
 #include "ofMain.h"
@@ -60,7 +71,12 @@ class testApp : public ofBaseApp{
         float 	* lAudio;
         float   * rAudio;
         
-        Sample bass;
-        Sample guitar;
+        Sample drums;
+        Sample drumsPerc;
+        Sample drumsPercBass;
+        Sample drumsPercBassGuitar;
+    
+    //variables for interface itself
+    int appState;
     
 };
