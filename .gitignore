@@ -62,3 +62,6 @@ Desktop.ini
  
 # Miscellaneous
 .mailmap
+soundStreamExample/src/Sample.cpp
+
+soundStreamExample/src/Sample.h
