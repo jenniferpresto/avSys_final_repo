@@ -1,0 +1,2 @@
+###AVSys Final
+A repository for the final project for AVSys for the MFA program at Parsons in Design and Technology, Spring 2013. There is a conflict in using ofSoundPlayer and the PS3Eye camera, so certain of these projects don't work.
