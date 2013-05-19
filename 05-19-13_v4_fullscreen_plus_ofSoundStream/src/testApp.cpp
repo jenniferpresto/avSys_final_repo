@@ -190,9 +190,6 @@ void testApp::draw(){
         displayImage.draw(0, 0, 1024, 768);
     }
     
-    if (appState != 5){
-        ps3eye.draw(10,10, 320, 240);
-    }
     // beginning of app
     if(appState == 0){
         titlePage.draw(0, 0);
@@ -234,10 +231,25 @@ void testApp::draw(){
         
     }
 	
-	ofDrawBitmapString("Ps3Eye FPS: "+ ofToString(ps3eye.getRealFrameRate()), 20,15);
+//	ofDrawBitmapString("Ps3Eye FPS: "+ ofToString(ps3eye.getRealFrameRate()), 20,15);
+    // countdown before recording
     if(recording && ofGetElapsedTimeMillis()-timeStartRecording < 5000){
         countdown();
     }
+    
+    // then record for eight seconds
+    if(recording && ofGetElapsedTimeMillis()-timeStartRecording >= 5000 && ofGetElapsedTimeMillis()-timeStartRecording < 13000){
+        drawRecordingMeter();
+    }
+    
+    if(recording && ofGetElapsedTimeMillis()-timeStartRecording >= 13000){
+        recording = false;
+    }
+    
+    if (appState != 0 && appState != 5){
+        ps3eye.draw(10,10, 320, 240);
+    }
+
 }
 
 //--------------------------------------------------------------
@@ -415,11 +427,23 @@ void testApp::audioRequested 	(float * output, int bufferSize, int nChannels){
 
 //--------------------------------------------------------------
 void testApp::countdown (){
+    ofSetColor(0, 0, 0);
+    helvetica.drawStringCentered("Beginning recording in", ofGetWidth() * 0.5+1, 30+1);
+    helvetica.drawStringCentered(ofToString((int)(timeStartRecording+5000-ofGetElapsedTimeMillis())/1000 + 1), ofGetWidth() * 0.5+1, 60+1);
+    ofSetColor(255, 255, 255);
     helvetica.drawStringCentered("Beginning recording in", ofGetWidth() * 0.5, 30);
     helvetica.drawStringCentered(ofToString((int)(timeStartRecording+5000-ofGetElapsedTimeMillis())/1000 + 1), ofGetWidth() * 0.5, 60);
 }
 
 //--------------------------------------------------------------
 void testApp::drawRecordingMeter (){
+    ofNoFill();
+    ofRect(10, 260, 320, 20);
+    ofFill();
+    ofRect(10, 260, ofMap(ofGetElapsedTimeMillis()-timeStartRecording, 5000, 13000, 0, 320, true), 20);
+    ofSetColor(0, 0, 0);
+    helvetica.drawStringCentered("Recording", 170 + 1, 300+1);
+    ofSetColor(255, 255, 255);
+    helvetica.drawStringCentered("Recording", 170, 300);
     
 }
