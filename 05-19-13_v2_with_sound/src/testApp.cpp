@@ -50,27 +50,27 @@ void testApp::setup(){
     // threshold for background subtractions
     threshold = 400;
     
-//    // music setup; start all instruments together
-//    // will turn on volume only when that loop is triggered
-//    drums.loadSound("drums.mp3");
-//    conga.loadSound("conga.mp3");
-//    bass.loadSound("bass.mp3");
-//    guitar.loadSound("guitar.mp3");
-//    
-//    drums.setLoop(true);
-//    conga.setLoop(true);
-//    bass.setLoop(true);
-//    guitar.setLoop(true);
-//    
-//    drums.setVolume(0);
-//    conga.setVolume(0);
-//    bass.setVolume(0);
-//    guitar.setVolume(0);
-//    
-//    drums.play();
-//    conga.play();
-//    bass.play();
-//    guitar.play();
+    // music setup; start all instruments together
+    // will turn on volume only when that loop is triggered
+    drums.loadSound("drums.mp3");
+    conga.loadSound("conga.mp3");
+    bass.loadSound("bass.mp3");
+    guitar.loadSound("guitar.mp3");
+    
+    drums.setLoop(true);
+    conga.setLoop(true);
+    bass.setLoop(true);
+    guitar.setLoop(true);
+    
+    drums.setVolume(0);
+    conga.setVolume(0);
+    bass.setVolume(0);
+    guitar.setVolume(0);
+    
+    drums.play();
+    conga.play();
+    bass.play();
+    guitar.play();
     
 }
 
@@ -96,25 +96,25 @@ void testApp::update(){
     // when press a, record from camera (each frame adds an image to vector)
     if(ofGetKeyPressed('a')){
         makeLoop(images);
-//        drums.setVolume(1.0);
+        drums.setVolume(1.0);
     }
     
     // when press b, record a different loop from the camera (each frame adds an image to a different vector)
     if(ofGetKeyPressed('b')){
         makeLoop(images2);
-//        conga.setVolume(1.0);
+        conga.setVolume(1.0);
     }
     
     // when press c, record a different loop from the camera (each frame adds an image to a different vector)
     if(ofGetKeyPressed('c')){
         makeLoop(images3);
-//        bass.setVolume(1.0);
+        bass.setVolume(1.0);
     }
     
     // when press d, record a different loop from the camera (each frame adds an image to a different vector)
     if(ofGetKeyPressed('d')){
         makeLoop(images4);
-//        guitar.setVolume(1.0);
+        guitar.setVolume(1.0);
     }
     
 	ps3eye.update();

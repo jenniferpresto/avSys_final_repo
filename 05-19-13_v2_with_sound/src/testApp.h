@@ -54,10 +54,10 @@ public:
     // fake (delightful!) background for testing
     ofImage tulips;
         
-//    // music variables
-//    ofSoundPlayer drums;
-//    ofSoundPlayer conga;
-//    ofSoundPlayer bass;
-//    ofSoundPlayer guitar;
+    // music variables
+    ofSoundPlayer drums;
+    ofSoundPlayer conga;
+    ofSoundPlayer bass;
+    ofSoundPlayer guitar;
     
 };
