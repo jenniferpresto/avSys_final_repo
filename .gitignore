@@ -65,3 +65,11 @@ Desktop.ini
 soundStreamExample/src/Sample.cpp
 
 soundStreamExample/src/Sample.h
+
+*.xcscheme
+
+05-19-13_v4_fullscreen_plus_ofSoundStream/05-19-13_v4_fullscreen_plus_ofSoundStream.xcodeproj/xcshareddata/xcschemes/05-19-13_v4_fullscreen_plus_ofSoundStream Debug.xcscheme
+
+05-19-13_v4_fullscreen_plus_ofSoundStream/05-19-13_v4_fullscreen_plus_ofSoundStream.xcodeproj/xcshareddata/xcschemes/05-19-13_v4_fullscreen_plus_ofSoundStream Release.xcscheme
+
+05-19-13_v4_fullscreen_plus_ofSoundStream/05-19-13_v4_fullscreen_plus_ofSoundStream.xcodeproj/xcshareddata/xcschemes/05-19-13_v4_fullscreen_plus_ofSoundStream Release.xcscheme
