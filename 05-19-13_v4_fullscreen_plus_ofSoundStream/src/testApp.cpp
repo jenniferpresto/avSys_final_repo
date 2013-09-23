@@ -177,6 +177,7 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    ofTranslate(171, 0);
     background.draw(0, 0, 1024, 768);
     cout << appState << "  recording? " << recording << "   " << mouseX << " " << mouseY << endl;
     
@@ -368,30 +369,30 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-    if(appState == 1 && x > 10 && x < 330 && y > 384 && y < 434){
+    if(appState == 1 && x > 10 + 171 && x < 330 + 171 && y > 384 && y < 434){
         recording = true;
         drumsPlaying = true;
         timeStartRecording = ofGetElapsedTimeMillis();
     }
-    if(appState == 2 && x > 10 && x < 330 && y > 465 && y < 515){
+    if(appState == 2 && x > 10 + 171 && x < 330 + 171 && y > 465 && y < 515){
         recording = true;
         drumsPlaying = false;
         percussionPlaying = true;
         timeStartRecording = ofGetElapsedTimeMillis();
     }
-    if(appState == 3 && x > 10 && x < 330 && y > 546 && y < 596){
+    if(appState == 3 && x > 10 + 171 && x < 330 + 171 && y > 546 && y < 596){
         recording = true;
         percussionPlaying = false;
         bassPlaying = true;
         timeStartRecording = ofGetElapsedTimeMillis();
     }
-    if(appState == 4 && x > 10 && x < 330 && y > 627 && y < 677){
+    if(appState == 4 && x > 10 + 171 && x < 330 + 171 && y > 627 && y < 677){
         recording = true;
         bassPlaying = false;
         guitarPlaying = true;
         timeStartRecording = ofGetElapsedTimeMillis();
     }
-    if(appState == 5 && x > 10 && x < 330 && y > 708 && y < 758){
+    if(appState == 5 && x > 10 + 171 && x < 330 + 171 && y > 708 && y < 758){
         recording = true;
         timeStartRecording = ofGetElapsedTimeMillis();
     }	
